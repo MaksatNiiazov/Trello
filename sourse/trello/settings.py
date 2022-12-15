@@ -125,3 +125,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTHENTICATION_BACKENDS = [
   "django.contrib.auth.backends.ModelBackend",
 ]
+
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
+# EMAIL_HOST = "smtp.mail.ru"
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = "shayloobek.niyazov@bk.ru"
+# EMAIL_HOST_PASSWORD = "mM8EiThhMph7jxjDp6XC"
+# EMAIL_USE_TLS = True
+
+
+AUTHENTICATION_BACKENDS = [
+  "django.contrib.auth.backends.ModelBackend",
+]
