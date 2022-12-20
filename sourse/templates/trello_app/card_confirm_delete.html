@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>Delete Check Card</h3>
+
+    <p>Are you sure you want to delete card?</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <input
+        value="Yes, delete."
+        type="submit">
+    <input
+        value="Cancel"
+        type="button"
+        onclick="location.href='{% url "board_detail" board_id %}';">
+</form>
+
+{% endblock %}

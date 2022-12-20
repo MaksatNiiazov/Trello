@@ -16,10 +16,10 @@
     <input type="hidden" name="checklist" value="{{ checklist_id }}">
 {{ form.task }}
 {{ form.done }}
-
-
-
-    <button type="submit">Добавить</button>
+    <button type="submit">Submit</button>
 </form>
+    <a href="{% url 'checklist__items_delete' board_id list_id card_id checklist_id pk %}">
+        <button>Delete</button>
+    </a>
 
 {% endblock %}

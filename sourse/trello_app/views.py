@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from trello_app.models import *
 from trello_app.forms import *
 
@@ -79,6 +79,19 @@ class BoardUpdateView(UpdateView):
         return reverse_lazy('board_list')
 
 
+class BoardDeleteView(DeleteView):
+    model = Board
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users'] = User.objects.get(username=self.request.user)
+        context['board_id'] = self.kwargs['pk']
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('board_list')
+
+
 class ListCreateView(CreateView):
     form_class = ListCreateForm
     template_name = 'trello_app/list_create.html'
@@ -99,6 +112,19 @@ class ListUpdateView(UpdateView):
     def get_queryset(self):
         queryset = List.objects.filter(id=self.kwargs['pk'])
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board_id'] = self.kwargs['board_id']
+        context['list_id'] = self.kwargs['pk']
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy("board_detail", args=[self.object.board_id])
+
+
+class ListDeleteView(DeleteView):
+    model = List
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -143,6 +169,20 @@ class CardUpdateView(UpdateView):
         return reverse_lazy("card", args=[self.kwargs['board_id'], self.kwargs['list_id'], self.kwargs['pk']])
 
 
+class CardDeleteView(DeleteView):
+    model = Card
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board_id'] = self.kwargs['board_id']
+        context['list_id'] = self.kwargs['list_id']
+        context['card_id'] = self.kwargs['pk']
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy("board_detail", args=[self.kwargs['board_id']])
+
+
 class MarkCreateView(CreateView):
     form_class = MarkCreateForm
     template_name = 'trello_app/mark_create.html'
@@ -176,6 +216,20 @@ class MarkUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("card", args=[self.kwargs['board_id'], self.kwargs['list_id'], self.kwargs['card_id']])
+
+class MarkDeleteView(DeleteView):
+    model = CardMark
+    template_name = 'trello_app/mark_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy("card", args=[self.kwargs['board_id'], self.kwargs['list_id'], self.kwargs['card_id']])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board_id'] = self.kwargs['board_id']
+        context['list_id'] = self.kwargs['list_id']
+        context['card_id'] = self.kwargs['card_id']
+        return context
 
 
 class CheckListCreateView(CreateView):
@@ -213,6 +267,20 @@ class CheckListUpdateView(UpdateView):
         return reverse_lazy("card", args=[self.kwargs['board_id'], self.kwargs['list_id'], self.kwargs['card_id']])
 
 
+class CheckListDeleteView(DeleteView):
+    model = CheckList
+
+    def get_success_url(self):
+        return reverse_lazy("card", args=[self.kwargs['board_id'], self.kwargs['list_id'], self.kwargs['card_id']])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board_id'] = self.kwargs['board_id']
+        context['list_id'] = self.kwargs['list_id']
+        context['card_id'] = self.kwargs['card_id']
+        return context
+
+
 class CheckListItemsCreateView(CreateView):
     form_class = CheckListItemCreateForm
     template_name = 'trello_app/checklist__item_create.html'
@@ -248,7 +316,22 @@ class CheckListItemsUpdateView(UpdateView):
         context['list_id'] = self.kwargs['list_id']
         context['card_id'] = self.kwargs['card_id']
         context['checklist_id'] = self.kwargs['checklist_id']
+        context['pk'] = self.kwargs['pk']
+        return context
 
+    def get_success_url(self):
+        return reverse_lazy("card", args=[self.kwargs['board_id'], self.kwargs['list_id'], self.kwargs['card_id']])
+
+
+class CheckListItemDeleteView(DeleteView):
+    model = CheckListItem
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board_id'] = self.kwargs['board_id']
+        context['list_id'] = self.kwargs['list_id']
+        context['card_id'] = self.kwargs['card_id']
+        context['checklist_id'] = self.kwargs['checklist_id']
         context['pk'] = self.kwargs['pk']
         return context
 
@@ -293,6 +376,21 @@ class CommentUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("card", args=[self.kwargs['board_id'], self.kwargs['list_id'], self.kwargs['card_id']])
+
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+
+    def get_success_url(self):
+        return reverse_lazy("card", args=[self.kwargs['board_id'], self.kwargs['list_id'], self.kwargs['card_id']])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board_id'] = self.kwargs['board_id']
+        context['list_id'] = self.kwargs['list_id']
+        context['card_id'] = self.kwargs['card_id']
+        return context
+
 
 def dashboard(request):
     return render(request, "trello_app/dashboard.html")
