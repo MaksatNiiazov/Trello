@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="row row-cols-3 row-cols-md-3 g-4">
+
+    {% for object in object_list %}
+
+      <div class="col">
+          <a href="{% url 'board_detail' object.id %}" style="text-decoration: none; color: black">
+            <div class="card">
+              <img src="{{ object.image.url }}" class="card-img-top" alt="..." style="height: 200px; object-fit:cover;">
+              <div class="card-body">
+                <h5 class="card-title">{{ object.title }}</h5>
+              </div>
+            </div>
+          </a>
+      </div>
+
+    {% endfor %}
+
+  <div class="col">
+      <a href="{% url 'board_create' %}" style="text-decoration: none; color: black">
+        <div class="card" style="opacity: 70%">
+          <img src="{% static 'icons/icon_plus.png' %}" class="card-img-top" alt="..." style="height: 200px; width: 200px; margin: 0 auto;">
+          <div class="card-body">
+            <h5 class="card-title" style="text-align: center">Create board</h5>
+          </div>
+        </div>
+      </a>
+  </div>
+
+</div>
+
+
+{% endblock %}

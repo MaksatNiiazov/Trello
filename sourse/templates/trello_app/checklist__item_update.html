@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Task Create</h1>
+
+<form action="{% url 'checklist__items_update' board_id list_id card_id checklist_id pk %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+{% for f in form %}
+<div class="form-error">{{ f.errors }}</div>
+{#        <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>#}
+{% endfor %}
+
+    <input type="hidden" name="checklist" value="{{ checklist_id }}">
+{{ form.task }}
+{{ form.done }}
+
+
+
+    <button type="submit">Добавить</button>
+</form>
+
+{% endblock %}

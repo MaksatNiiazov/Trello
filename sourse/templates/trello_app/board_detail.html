@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block backgound %}
+{{ object.image.url }}
+{% endblock %}
+
+{% block content %}
+    <div class="background">
+        <h1 style="text-shadow: white 0px 0px 10px"><a href="{% url 'board_update' object.id %}">{{ object.title }}</a></h1>
+    </div>
+
+        <div class="row row-cols-3 row-cols-md-3 g-4">
+        {% for list in lists %}
+
+              <div class="col">
+                    <div class="card">
+                    <a href="{% url 'list_update' object.id list.id %}" style="text-decoration: none; color: black">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ list.title }}</h5>
+                      </div>
+                    </a>
+                          <ul class="list-group list-group-flush">
+                              {% for card in list.cards.all %}
+                                  <a href="{% url 'card' object.id list.id card.id %}"><li class="list-group-item">{{ card.title }}</li></a>
+                              {% endfor %}
+                              <a href="{% url 'card_create' object.id list.id %}"><li class="list-group-item" style="opacity: 70%"> + Add new</li></a>
+                          </ul>
+                    </div>
+              </div>
+
+            {% endfor %}
+
+            <div class="col" style="opacity: 70%">
+                  <a href="{% url 'list_create' object.id %}" style="text-decoration: none; color: black">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title"> + Add new</h5>
+                      </div>
+                          <ul class="list-group list-group-flush">
+                              {% for card in list.cards.all %}
+                                <li class="list-group-item">  </li>
+                              {% endfor %}
+                          </ul>
+                    </div>
+                  </a>
+              </div>
+
+        </div>
+
+
+
+{% endblock %}

@@ -1,6 +1,7 @@
 
 {% extends '../base.html' %}
-
+{% load account %}
+{% load socialaccount %}
 {% block content %}
     <h2>Login</h2>
 
@@ -9,7 +10,12 @@
         {{ form.as_p }}
         <input type="submit" value="Login">
     </form>
+    {% if user.is_authenticated %}
+  <p>Welcome, You are logged in as {{ user.username }}</p>
 
+    {% else %}
+      <a href="{% provider_login_url 'google' %}">Login With Google</a>
+    {% endif %}
     <a href="{% url 'dashboard' %}">Back to dashboard</a>
     <a href="{% url 'password_reset' %}">Reset password</a>
     <a href="{% url 'register' %}">Register</a>

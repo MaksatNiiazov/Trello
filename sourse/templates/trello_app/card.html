@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block backgound %}
+{{ card.list.board.image.url }}
+{% endblock %}
+{% block content %}
+    <a href="{% url 'card_update' board_id list_id object.id %}"><h1 style="text-shadow: white 0 0 10px">{{ object.title }}</h1></a>
+    <div class="card">
+    <p style="text-shadow: white 0 0 10px">{{ object.description }}</p>
+    </div>
+    <br>
+
+    <div class="card">
+      <div class="card-header">
+        <h5>Marks</h5>
+      </div>
+      <div class="card-body">
+          {% for mark in marks %}
+            <a href="{% url 'mark_update' board_id list_id card.id mark.id %}" class="btn" style="background-color: #{{ mark.color }}">{{ mark.text }}</a>
+          {% endfor %}
+        <a href="{% url 'mark_create' board_id list_id card.id %}" class="btn" style="background-color:gray"> + </a>
+      </div>
+    </div>
+
+    <br>
+
+       <div class="card">
+      <div class="card-header">
+        <h5>CheckLists</h5>
+      </div>
+      <div class="card-body">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+         {% for checklist in checklists %}
+          <div class="col">
+
+                <div class="card">
+                  <div class="card-body">
+
+                      <a href="{% url 'checklist_update'  board_id list_id card.id checklist.id %}"><h5 class="card-title">{{ checklist.title }}</h5></a>
+                          <ul class="list-group list-group-flush">
+                              {% for items in checklist.items.all %}
+                              <li style="list-style-type: none;"><a href="{% url 'checklist__items_update' board_id list_id card.id checklist.id items.id %}">{{ items.task }}</a> : {% if items.done %}
+                                  <img src="{% static 'icons/done-mark.png' %}" alt="" style="width: 20px;height: 20px;">
+                                  {% else %}
+                                  <img src="{% static 'icons/x-mark.png' %}" alt="" style="width: 20px;height: 20px;">
+                              {% endif %}
+                              </li>
+                              {% endfor %}
+                          <li style="list-style-type: none;"><a href="{% url 'checklist__items_create' board_id list_id card.id checklist.id  %}">+ add</a></li>
+                          </ul>
+
+                  </div>
+                </div>
+
+              </div>
+             {% endfor %}
+            <div class="col">
+            <div class="card">
+                <a href="{% url 'checklist_create' board_id list_id card.id %}">
+                  <div class="card-body">
+                    <h5 class="card-title">+ Add Checklist</h5>
+                  </div>
+                </a>
+            </div>
+          </div>
+        </div>
+
+        </div>
+      </div>
+
+
+    <br>
+     <div class="card">
+          <div class="card-header">
+            <h5>Comments</h5>
+          </div>
+          <div class="card-body">
+              {% for comment in comments %}
+                <p class="card-text"> <a href="{% url 'comment_update' board_id list_id card.id comment.id %}"><b>{{ comment.author }}  : </b></a>{{ comment.text }}</p>
+                  <span>{{ comment.created_at }}</span>
+                  <hr>
+              {% endfor %}
+          <a href="{% url 'comment_create' board_id list_id card.id %}" class="btn btn-primary">+ Add comment</a>
+      </div>
+     </div>
+
+    <br>
+
+
+{% endblock %}

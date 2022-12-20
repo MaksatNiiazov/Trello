@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Comment Create</h1>
+
+<form action="{% url 'comment_create'  board_id list_id card_id  %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+{% for f in form %}
+<div class="form-error">{{ f.errors }}</div>
+{#    <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>#}
+
+{% endfor %}
+    <p><input type="hidden" name="card" value="{{ card_id }}"></p>
+    <p><input type="hidden" name="author" value="{{ user.id }}"></p>
+    <p>{{ form.text }}</p>
+
+    <button type="submit">Добавить</button>
+</form>
+
+{% endblock %}

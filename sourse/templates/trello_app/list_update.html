@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>List Update</h1>
+
+<form action="{% url 'list_update' board_id list_id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+    {% for f in form %}
+        <div class="form-error">{{ f.errors }}</div>
+    {% endfor %}
+
+    <input type="hidden", name="board" value="{{ board_id }}">
+
+    <p><label class="form-label" for="">{{form.title}}: </label>{{ f }}</p>
+
+
+
+
+    <button type="submit">Добавить</button>
+</form>
+
+{% endblock %}

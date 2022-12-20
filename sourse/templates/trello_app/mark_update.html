@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Mark Update</h1>
+
+<form action="{% url 'mark_update' board_id list_id card_id pk %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+{% for f in form %}
+<div class="form-error">{{ f.errors }}</div>
+{% endfor %}
+    <input type="hidden" name="card" value="{{ card_id }}">
+    <p>{{ form.text }}</p>
+    <p>{{ form.color }}</p>
+
+
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock %}
