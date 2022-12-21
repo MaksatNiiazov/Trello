@@ -27,6 +27,22 @@ class BoardDetailView(DetailView):
         return context
 
 
+class BoardUserAddView(UpdateView):
+    form_class = BoardCreateForm
+    template_name = 'trello_app/board_user.html'
+
+
+    def get_queryset(self):
+        queryset = Board.objects.filter(id=self.kwargs['pk'])
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users'] = User.objects.get(username=self.request.user)
+        context['board_id'] = self.kwargs['pk']
+        return context
+
+
 class ListDetailView(ListView):
     model = List
     template_name = 'trello_app/list_detail.html'
@@ -81,6 +97,7 @@ class BoardUpdateView(UpdateView):
 
 class BoardDeleteView(DeleteView):
     model = Board
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

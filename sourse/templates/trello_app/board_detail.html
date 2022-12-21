@@ -8,6 +8,21 @@
     <div class="background">
         <h1 style="text-shadow: white 0px 0px 10px"><a href="{% url 'board_update' object.id %}">{{ object.title }}</a></h1>
     </div>
+    <div class="dropdown">
+
+
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        Users
+      </a>
+
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for user in object.users.all %}
+                <li><a class="dropdown-item" href="#">{{ user.username }}</a></li>
+            {% endfor %}
+
+        <li><a class="dropdown-item" href="#">Add user to Board</a></li>
+      </ul>
+    </div>
 
         <div class="row row-cols-3 row-cols-md-3 g-4">
         {% for list in lists %}
