@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Board Create</h1>
 
-<form action="{% url 'board_update' board_id %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'board_user' board_id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     <div class="form-error">{{ form.non_field_errors }}</div>
@@ -12,10 +12,19 @@
         <div class="form-error">{{ f.errors }}</div>
     {% endfor %}
 
-        <input type="hidden", name="users" value="{{ users.pk }}">
+    <input type="hidden", name="title" value="{{form.title}}">
+    <input type="hidden", name="image" value="{{form.image.currently}}">
 
-    <p><label class="form-label" for="">{{form.title}}: </label>{{ f }}</p>
-    <p><label class="form-label" for="">{{form.image}}: </label>{{ f }}</p>
+
+
+<select class="form-select" aria-label="Default select example">
+    {% for user in users %}
+        <option selected>Open this select menu</option>
+          <option value="{{ user.id }}">{{ user.username }}</option>
+    {% endfor %}
+</select>
+
+</form>
 
 
 

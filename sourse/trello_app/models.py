@@ -26,6 +26,7 @@ class Card(models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name='cards')
     title = models.CharField(max_length=30, blank=False, null=False)
     description = models.TextField(max_length=500, blank=True, null=True)
+    end_date = models.DateField()
 
     def __str__(self):
         return self.title

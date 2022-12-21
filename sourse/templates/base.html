@@ -25,10 +25,11 @@ background-position: center center; background-repeat: no-repeat;">
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item">
+
+              {% if user.is_authenticated %}
+              <li class="nav-item">
                 <a class="nav-link active" href="{% url 'board_list' %}">Boards</a>
             </li>
-              {% if user.is_authenticated %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>

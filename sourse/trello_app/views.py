@@ -38,7 +38,7 @@ class BoardUserAddView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['users'] = User.objects.get(username=self.request.user)
+        context['users'] = User.objects.exclude(username=self.request.user)
         context['board_id'] = self.kwargs['pk']
         return context
 
