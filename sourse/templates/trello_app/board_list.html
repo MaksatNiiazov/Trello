@@ -4,8 +4,8 @@
 
 
 <div class="row row-cols-3 row-cols-md-3 g-4">
-
-    {% for object in object_list %}
+{% if object_list %}
+     {% for object in object_list %}
 
       <div class="col">
           <a href="{% url 'board_detail' object.id %}" style="text-decoration: none; color: black">
@@ -19,6 +19,10 @@
       </div>
 
     {% endfor %}
+
+{% endif %}
+
+
 
   <div class="col">
       <a href="{% url 'board_create' %}" style="text-decoration: none; color: black">

@@ -12,7 +12,7 @@ urlpatterns = [
     path('board-update/<int:pk>', BoardUpdateView.as_view(), name='board_update'),
     path('board-delete/<int:pk>', BoardDeleteView.as_view(), name='board_delete'),
 
-    path('board-user/<int:pk>',  BoardUserAddView.as_view(), name='board_user'),
+    # path('board-user/<int:pk>',  BoardUserAddView.as_view(), name='board_user'),
 
     path('board/<int:board_id>/list-create/', ListCreateView.as_view(), name='list_create'),
     path('board/<int:board_id>/list-update/<int:pk>/', ListUpdateView.as_view(), name='list_update'),

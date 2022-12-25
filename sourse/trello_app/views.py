@@ -9,7 +9,7 @@ class BoardListView(ListView):
     template_name = 'trello_app/board_list.html'
 
     def get_queryset(self):
-        return Board.objects.filter(users=self.request.user)
+        return Board.objects.filter(user=self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,21 +26,21 @@ class BoardDetailView(DetailView):
         context['lists'] = List.objects.filter(board_id=self.object.id)
         return context
 
-
-class BoardUserAddView(UpdateView):
-    form_class = BoardCreateForm
-    template_name = 'trello_app/board_user.html'
-
-
-    def get_queryset(self):
-        queryset = Board.objects.filter(id=self.kwargs['pk'])
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['users'] = User.objects.exclude(username=self.request.user)
-        context['board_id'] = self.kwargs['pk']
-        return context
+#
+# class BoardUserAddView(UpdateView):
+#     form_class = BoardCreateForm
+#     template_name = 'trello_app/board_user.html'
+#
+#
+#     def get_queryset(self):
+#         queryset = Board.objects.filter(id=self.kwargs['pk'])
+#         return queryset
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['users'] = User.objects.exclude(username=self.request.user)
+#         context['board_id'] = self.kwargs['pk']
+#         return context
 
 
 class ListDetailView(ListView):
